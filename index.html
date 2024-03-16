@@ -34,31 +34,62 @@
                 if ((playerSelection === "rock" && computerSelection === "Rock!") ||
                     (playerSelection === "scissors" && computerSelection === "Scissors!") ||
                     (playerSelection === "paper" && computerSelection === "Paper!")) {
-                        return "It's a tie!"
+                        return "This round is a tie!"
                 }
 
                 else if ((playerSelection === "rock" && computerSelection === "Scissors!") ||
                     (playerSelection === "scissors" && computerSelection === "Paper!") ||
                     (playerSelection === "paper" && computerSelection === "Rock!")) {
-                        return "You win!"
+                        return "You win this round!"
                     }
 
                 else if ((playerSelection === "rock" && computerSelection === "Paper!") ||
                     (playerSelection === "scissors" && computerSelection === "Rock!") ||
                     (playerSelection === "paper" && computerSelection === "Scissors!")) {
-                        return "You lose!"
+                        return "You lose this round!"
                     }
 
                 else {
-                    return "Stop playing around!"
-                }
-                    
+                    return "Stop playing around! Enter a REAL answer!"
+                } 
+            }
+
+            function playGame() {
+                let playerScore = 0
+                let computerScore = 0
                 
+                for (let i = 0; i < 5; i++) {
+                    const playerSelection = getPlayerChoice()
+                    const computerSelection = getComputerChoice()
+                    let roundResult = playRound(playerSelection, computerSelection);
+
+                    console.log(roundResult);
+
+                    if (roundResult === "You win this round!") {
+                        playerScore++;
+                    }
+
+                    else if (roundResult === "You lose this round!") {
+                        computerScore++;
+                    }
+                }
+
+                    if (playerScore > computerScore) {
+                        return `You win the game! The final score is player: ${playerScore} and computer: ${computerScore}!`;
+                    }
+
+                    else if (playerScore < computerScore) {
+                        return `You lose the game! The final score is player: ${playerScore} and computer: ${computerScore}!`;
+                    }
+
+                    else if (playerScore === computerScore){
+                        return `It\'s a tie! The final score is player: ${playerScore} and computer: ${computerScore}!`;
+                    }
             }
 
             const playerSelection = getPlayerChoice()
             const computerSelection = getComputerChoice()
-            console.log(playRound(playerSelection, computerSelection))
+            console.log(playGame())
 
         </script>
     </body>
