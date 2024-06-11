@@ -8,8 +8,26 @@
 
     <body>
         <h1>Rock Paper Scisssors!</h1>
+        <div id="scoreboard"></div>
+        <button id="rock">Rock</button>
+        <button id="paper">Paper</button>
+        <button id="scissors">Scissors</button>
         <script>
-            //Where da java goes 
+            const scoreUpdate = document.querySelector("div");
+            const buttons = document.querySelectorAll("button");
+
+            let playerScore = 0;
+            let computerScore = 0;
+
+            buttons.forEach(button => {
+                button.addEventListener("click", function() {
+                    const playerSelection = this.id;
+                    const computerSelection = getComputerChoice();
+                    const roundResult = playRound(playerSelection, computerSelection);
+                    updateScoreboard(roundResult, playerSelection, computerSelection);
+                });
+           }); 
+
             function getComputerChoice() {
                 result = Math.floor(Math.random() * 300);
                 if (result <= 99) {
@@ -23,12 +41,21 @@
                 else {
                     return "Scissors!";
                 }
-            }
+            };
 
+            // Not in use because of const playerSelection = this.id;
             function getPlayerChoice() {
-                let userInput = prompt("Rock, Paper, Scissors, go! (Enter your answer below.)");
-                return userInput.toLowerCase();
-            }
+                const playerChoice = document.querySelectorAll("button");
+                button.addEventListener("click", function() {
+                    if (this.id === "rock") {
+                        return "rock";
+                    } else if (this.id === "paper") {
+                        return "paper";
+                    } else if (this.id === "scissors") {
+                        return "scissors";
+                    }
+                });
+            };
 
             function playRound(playerSelection, computerSelection) {
                 if ((playerSelection === "rock" && computerSelection === "Rock!") ||
@@ -40,30 +67,58 @@
                 else if ((playerSelection === "rock" && computerSelection === "Scissors!") ||
                     (playerSelection === "scissors" && computerSelection === "Paper!") ||
                     (playerSelection === "paper" && computerSelection === "Rock!")) {
+                        playerScore++
                         return "You win this round!"
                     }
 
                 else if ((playerSelection === "rock" && computerSelection === "Paper!") ||
                     (playerSelection === "scissors" && computerSelection === "Rock!") ||
                     (playerSelection === "paper" && computerSelection === "Scissors!")) {
+                        computerScore++
                         return "You lose this round!"
                     }
 
                 else {
                     return "Stop playing around! Enter a REAL answer!"
                 } 
+            };
+
+            function updateScoreboard(roundResult, playerSelection, computerSelection) {
+                const resultMessage = document.createElement("p")
+                resultMessage.textContent = `Player chose: ${playerSelection}, Computer chose: ${computerSelection} ${roundResult}`;
+                scoreUpdate.appendChild(resultMessage);
+                
+                const scoreMessage = document.createElement("p")
+                scoreMessage.textContent = `Current score - Player: ${playerScore}, Computer: ${computerScore}`;
+                scoreUpdate.appendChild(scoreMessage);
+
+                if (playerScore === 5) {
+                    scoreMessage.textContent = `The final score is Player: 5, Computer: ${computerScore}! You win! AI will never rule!`;
+                    disableButtons();
+                } else if (computerScore === 5) {
+                    scoreMessage.textContent = `The final score is Player: ${playerScore}, Computer: 5! You lose! AI is really taking over!`;
+                    disableButtons();
+                };
+            };
+
+            function disableButtons() {
+                buttons.forEach ( button => {
+                    button.disabled = true;
+                });
             }
 
-            function playGame() {
+            /* function playGame() {
                 let playerScore = 0
                 let computerScore = 0
                 
                 for (let i = 0; i < 5; i++) {
                     const playerSelection = getPlayerChoice()
                     const computerSelection = getComputerChoice()
-                    let roundResult = playRound(playerSelection, computerSelection);
+                    let roundResult = playRound(playerSelection, computerSelection); 
 
-                    console.log(roundResult);
+                    //console.log(roundResult);
+
+                    
 
                     if (roundResult === "You win this round!") {
                         playerScore++;
@@ -72,7 +127,7 @@
                     else if (roundResult === "You lose this round!") {
                         computerScore++;
                     }
-                }
+                } 
 
                     if (playerScore > computerScore) {
                         return `You win the game! The final score is player: ${playerScore} and computer: ${computerScore}!`;
@@ -85,12 +140,15 @@
                     else if (playerScore === computerScore){
                         return `It\'s a tie! The final score is player: ${playerScore} and computer: ${computerScore}!`;
                     }
-            }
+            }; */
 
-            const playerSelection = getPlayerChoice()
+            /* const playerSelection = getPlayerChoice()
             const computerSelection = getComputerChoice()
-            console.log(playGame())
-
+            console.log(playGame()) */
+            /* Notes for Next Session
+               currently changing my button event listener to each (see chat gpt)
+               need to creat game logic within event listener because chatgpt thinks my playGame() is garbage. Pain.
+                } */
         </script>
     </body>
 </html>
